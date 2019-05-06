@@ -238,8 +238,8 @@ impl fmt::Debug for Object {
 			Object::Name(ref name) => write!(f, "/{}", str::from_utf8(name).unwrap()),
 			Object::String(ref text, _) => write!(f, "({})", String::from_utf8_lossy(text)),
 			Object::Array(ref array) => {
-				let items = array.iter().map(|item| format!("{:?}", item)).collect::<Vec<String>>();
-				write!(f, "[{}]", items.join(" "))
+				let items = array.iter().map(|item| format!("({:?})", item)).collect::<Vec<String>>();
+				write!(f, "[{}]", items.join(", "))
 			}
 			Object::Dictionary(ref dict) => write!(f, "{:?}", dict),
 			Object::Stream(ref stream) => write!(f, "{:?}stream...endstream", stream.dict),
@@ -321,8 +321,8 @@ macro_rules! dictionary {
 
 impl fmt::Debug for Dictionary {
 	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		let entries = self.into_iter().map(|(key, value)| format!("/{} {:?}", String::from_utf8_lossy(key), value)).collect::<Vec<String>>();
-		write!(f, "<<{}>>", entries.concat())
+		let entries = self.into_iter().map(|(key, value)| format!("(key: {}, val: {:?})", String::from_utf8_lossy(key), value)).collect::<Vec<String>>();
+		write!(f, "<<{}>>", entries.join(", "))
 	}
 }
 

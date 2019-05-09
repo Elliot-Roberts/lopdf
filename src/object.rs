@@ -321,8 +321,8 @@ macro_rules! dictionary {
 
 impl fmt::Debug for Dictionary {
 	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		let entries = self.into_iter().map(|(key, value)| format!("(key: {}, val: {:?})", String::from_utf8_lossy(key), value)).collect::<Vec<String>>();
-		write!(f, "<<{}>>", entries.join(", "))
+		let entries = self.into_iter().map(|(key, value)| format!("\t({}: {:?})", String::from_utf8_lossy(key), value)).collect::<Vec<String>>();
+		write!(f, "<<\n{}\n>>", entries.join(",\n"))
 	}
 }
 
